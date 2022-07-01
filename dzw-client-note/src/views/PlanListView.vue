@@ -1,8 +1,9 @@
 <template>
 <div id="tasks" >
-    <add-botton @addTask="add" ></add-botton>
-    <item-modify @cancel="cancel" :aORm="aORm" :id="taskId" v-show="isModify"/>
-    <note-item :list="unFinishTaskList" type="plan"  @modify="modify" v-on="$listeners"/>
+    <add-botton @change="beginAdd" v-show="!isModify"></add-botton>
+    <plan-modify @cancel="cancel" :aORm="aORm" :item="item" v-show="isModify"/>
+    <note-item :list="planList" type="plan"   @modify="modify" v-on="$listeners"/>
+
 
 </div>
 </template>
@@ -12,40 +13,39 @@
 // @ is an alias to /src
 import noteItem from '@/components/note-item.vue'
 import addBotton from '@/components/add-botton.vue'
-import itemModify from '@/components/item-modify.vue';
+import planModify from '@/components/plan-modify.vue';
 export default {
   components: {
     noteItem,
     addBotton,
-    itemModify
+    planModify
   },
   data() {
     return {
         aORm:0,
-        taskId:1,   
+        item:{},   
         isModify: false
       }
   },
   methods:{
-    modify(id){
+    modify(item){
         this.aORm = 1
-        this.taskId = id
+        this.item = item
         this.isModify = true
+    },
+    beginAdd(){
+      this.aORm = 0
+      this.isModify = true
     },
     cancel(){
         this.isModify = false
-    },
-    add(){
-        this.aORm = 0
-        this.isModify = true
     }
   },
   computed: {
-    finishTaskList(){
-        return this.$store.getters['task/getFinishItem']
-    },
-    unFinishTaskList(){
-        return this.$store.getters['task/getUnFinishItem']
+    //TODO 获取计划列表
+    planList(){
+        console.log(this.$store.getters['plan/getPlanList'])
+        return this.$store.getters['plan/getPlanList']
     }
 
   },

@@ -91,17 +91,21 @@ export default{
                 finishtime:'',
                 importance:1
             },
-            mythis :this
+
              
         }
     },
     computed:{
-      newTask(){
-        if(this.aORm === 1){
-          return this.item
-        }else{
-          console.log(111)
-          return this.defaultList
+      newTask:{
+        get(){
+          if(this.aORm === 1){
+            return this.item
+          }else{
+            return this.defaultList
+          }
+        },
+        set(value){
+          console.log(value)
         }
       }
     },
@@ -121,6 +125,9 @@ export default{
                 data = await dailyTaskApi.updateTasks(this.newTask).then(res => res.data)
             }
             if(data.message === 'modify-success' || data.message === 'save-success'){
+                  //TODO初始化 输入状态 
+
+                  console.log("this.newTask::",this.newTask)
                   // 重新获取列表
                   // 关闭面板 
                   this.cancelSave()

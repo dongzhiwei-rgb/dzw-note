@@ -13,7 +13,7 @@
 <script>
 import IndexHeader from '@/components/index-header.vue'
 import indexSection from '@/components/index-section.vue'
-import { taskData } from '@/utils/getData'
+import { taskData,planData } from '@/utils/getData'
 
 export default{
     components: {
@@ -27,7 +27,10 @@ export default{
     },
 
     mounted() {
+        //数据加载
         taskData.getTasks(this)
+        planData.getPlans(this)
+
 
     }
 }

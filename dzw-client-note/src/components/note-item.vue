@@ -57,8 +57,9 @@
 </template>
 
 <script>
-import { dailyTaskApi } from '@/utils/api'
-import {taskData} from '@/utils/getData'
+import { dailyTaskApi,planApi } from '@/utils/api'
+import {taskData,planData} from '@/utils/getData'
+
 
 export default {
   props: {
@@ -79,32 +80,63 @@ export default {
   methods: {
     // 完成标记
     async finish(item) {
-      const data = await dailyTaskApi.finishTasks(item).then(res => res.data)
-      if(data.message === 'finish-success'){
-        //获取更新数据
-        taskData.getTasks(this)
-      }else{
-        alert(data.message)
+      if (this.type === 'task'){
+          const data = await dailyTaskApi.finishTasks(item).then(res => res.data)
+          if(data.message === 'finish-success'){
+            //获取更新数据
+            taskData.getTasks(this)
+          }else{
+            alert(data.message)
+          }
+      }else {
+          const data = await planApi.finishplan(item).then(res => res.data)
+          if(data.message === 'finish-success'){
+            //获取更新数据
+            planData.getPlans(this)
+          }else{
+            alert(data.message)
+          }
       }
+
     },
     //撤销完成标记
     async recover(item){
-      const data = await dailyTaskApi.unfinishTasks(item).then(res => res.data)
-      if(data.message === 'unFinish-success'){
-        //获取更新数据
-        taskData.getTasks(this)
-      }else{
-        alert(data.message)
+      if(this.type === 'task'){
+          const data = await dailyTaskApi.unfinishTasks(item).then(res => res.data)
+          if(data.message === 'unFinish-success'){
+            //获取更新数据
+            taskData.getTasks(this)
+          }else{
+            alert(data.message)
+        }
+      }else {
+          const data = await planApi.unfinishplan(item).then(res => res.data)
+          if(data.message === 'unFinish-success'){
+            //获取更新数据
+            planData.getPlans(this)
+          }else{
+            alert(data.message)
+        }
       }
     },
     // 删除
     async deleteItem(item) {
-      const data = await dailyTaskApi.deleteTasks(item).then(res => res.data)
-      if(data.message === 'delete-success'){
-        //获取更新数据
-        taskData.getTasks(this)
+      if (this.type === 'task'){
+        const data = await dailyTaskApi.deleteTasks(item).then(res => res.data)
+          if(data.message === 'delete-success'){
+          //获取更新数据
+            taskData.getTasks(this)
+          }else{
+            alert(data.message)
+        }
       }else{
-        alert(data.message)
+        const data = await planApi.deleteplan(item).then(res => res.data)
+        if(data.message === 'delete-success'){
+          //获取更新数据
+          planData.getPlans(this)
+        }else{
+          alert(data.message)
+        }
       }
     },
     modify(item){

@@ -7,3 +7,13 @@ export class taskData {
         }
     }
 }
+
+export class planData {
+    //获取计划数据列表
+    static async getPlans(context){
+        const res = await context.$store.dispatch('plan/getPlanList')
+        if (res){
+            console.log('计划列表已获取')
+        }
+    }
+}

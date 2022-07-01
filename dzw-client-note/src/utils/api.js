@@ -29,6 +29,8 @@ export class userApi  {
     }
 }
 
+
+
 export class dailyTaskApi {
     static setHeader(){
         instance.defaults.headers = {"Authorization":"Bearer "+getToken()}
@@ -63,6 +65,45 @@ export class dailyTaskApi {
     static async unfinishTasks(idAndusername){
         this.setHeader()
         return instance.post('/task/dailytask/unfinish',idAndusername)
+    }
+}
+
+
+
+export class planApi {
+    static setHeader(){
+        instance.defaults.headers = {"Authorization":"Bearer "+getToken()}
+    }
+
+    // 添加计划
+    static async addplan(planData){
+        this.setHeader()
+        return instance.post('/task/plan/save',planData)
+    }
+    // 获取计划
+    static async getplan(planData){
+        this.setHeader()
+        return instance.get('/task/plan/get',planData)
+    }
+     // 删除计划
+     static async deleteplan(planData){
+        this.setHeader()
+        return instance.post('/task/plan/delete',planData)
+    }
+    // 修改计划
+    static async modifyplan(planData){
+        this.setHeader()
+        return instance.post('/task/plan/modify',planData)
+    }
+    // 完成计划标记
+    static async finishplan(planData){
+        this.setHeader()
+        return instance.post('/task/plan/finish',planData)
+    }
+    // 撤销完成
+    static async unfinishplan(planData){
+        this.setHeader()
+        return instance.post('/task/plan/unfinish',planData)
     }
 
 }

@@ -6,6 +6,7 @@ Vue.use(Vuex)
 import createpersistedstate from 'vuex-persistedstate'
 import user from './modules/user'
 import task from './modules/task'
+import plan from './modules/plan'
 
 export default new Vuex.Store({
   state: {
@@ -18,12 +19,19 @@ export default new Vuex.Store({
   },
   modules: {
     user,
-    task
+    task,
+    plan
   },
   plugins:[
-    createpersistedstate({
+    createpersistedstate(
+    {
       key:'vuex-data',
       paths:['user','task']
-    })
+    },
+    {
+      key:'vuex-plan',
+      paths:['plan']
+    }
+    )
   ]
 })
