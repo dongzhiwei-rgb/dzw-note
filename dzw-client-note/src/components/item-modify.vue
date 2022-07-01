@@ -1,7 +1,10 @@
 <template>
   <div class="modify">
     <a href="javascript:void(0);" class="card add-card">
-      <span class="glyphicon glyphicon-pencil">正在修改</span>
+      <span class="glyphicon glyphicon-pencil">
+        <span v-show="aORm === 1">正在修改</span>
+        <span  v-show="aORm === 0">添加任务</span>
+      </span>
     </a>
     <div class="card">
       <div class="card-header">
@@ -12,6 +15,7 @@
           name="title"
           id="save_task_title"
           placeholder="请输入备忘录标题"
+          
         />
       </div>
       <div class="card-body">
@@ -72,20 +76,34 @@ export default{
         default:0
       },
       // 需要修改的id
-      id:{
-        type:Number
+      item:{
+        type:Object,
+        default:()=>{}
       }
+
     },
     data() {
         return {
-            newTask:{
+            defaultList:{
                 title:'',
                 content:'',
                 state:0,
                 finishtime:'',
                 importance:1
             },
+            mythis :this
+             
         }
+    },
+    computed:{
+      newTask(){
+        if(this.aORm === 1){
+          return this.item
+        }else{
+          console.log(111)
+          return this.defaultList
+        }
+      }
     },
     methods:{
         async saveTask(){
@@ -99,8 +117,7 @@ export default{
             //修改
             if(this.aORm === 1){
                 console.log('修改')
-                this.newTask.id = this.id
-                console.log(this.newTask)
+                this.newTask.id = this.item.id
                 data = await dailyTaskApi.updateTasks(this.newTask).then(res => res.data)
             }
             if(data.message === 'modify-success' || data.message === 'save-success'){
@@ -118,7 +135,7 @@ export default{
             this.$emit('cancel')
         }
         
-    }  
+    },
 
 }
 </script>

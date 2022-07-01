@@ -43,7 +43,7 @@
 
 
           <div class="btn-group card-btn-group">
-            	<button v-show="item.state === 0" class='btn card-btn btn-info' @click="modify(item.id)">
+            	<button v-show="item.state === 0" class='btn card-btn btn-info' @click="modify(item)">
 									<span class="glyphicon glyphicon-pencil"></span>修改
 							</button>
             <button class="btn card-btn btn-danger" @click="deleteItem(item)">
@@ -107,9 +107,9 @@ export default {
         alert(data.message)
       }
     },
-    modify(id){
+    modify(item){
       //TODO展开修改组件，并传递itme id数据
-      this.$emit('modify',id)
+      this.$emit('modify',item)
     },
     //改变不同优先级显示的颜色
 		cardColor(importance){

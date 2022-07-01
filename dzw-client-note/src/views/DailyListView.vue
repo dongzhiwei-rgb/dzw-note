@@ -1,9 +1,9 @@
 <template>
 <div id="tasks" >
-    <add-botton @change="!isModify"></add-botton>
-    <item-modify @cancel="cancel" :aORm="aORm" :id="taskId" v-show="isModify"/>
+    <add-botton @change="beginAdd" v-show="!isModify"></add-botton>
+    <item-modify @cancel="cancel" :aORm="aORm" :item="item" v-show="isModify"/>
     <li class="tasks-title">正在完成</li>
-    <note-item :list="unFinishTaskList" type="task"  @modify="modify" v-on="$listeners"/>
+    <note-item :list="unFinishTaskList" type="task"   @modify="modify" v-on="$listeners"/>
     <li class="tasks-title">已完成</li>
     <note-item :list="finishTaskList" type="task" v-on="$listeners"/>
 </div>
@@ -25,15 +25,19 @@ export default {
   data() {
     return {
         aORm:0,
-        taskId:1,   
+        item:{},   
         isModify: false
       }
   },
   methods:{
-    modify(id){
+    modify(item){
         this.aORm = 1
-        this.taskId = id
+        this.item = item
         this.isModify = true
+    },
+    beginAdd(){
+      this.aORm = 0
+      this.isModify = true
     },
     cancel(){
         this.isModify = false
