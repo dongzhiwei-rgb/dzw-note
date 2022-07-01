@@ -32,12 +32,18 @@ const routes = [
       {
         path:'/login',
         name:RouterName.login,
-        component:LoginView
+        component:LoginView,
+        meta: {
+          title: '请登录'
+        }
       },
       {
         path:'/register',
         name:RouterName.register,
-        component:RegView
+        component:RegView,
+        meta: {
+          title: '注册'
+        }
       }
     ]
   },
@@ -60,17 +66,26 @@ const routes = [
       {
         path:'/index/search',
         name:RouterName.search,
-        component:SearchView
+        component:SearchView,
+        meta: {
+          title: '查找计划与任务'
+        }
       },
       {
         path:'/index/daily',
         name:RouterName.daily,
-        component:DailyView
+        component:DailyView,
+        meta: {
+          title: '任务列表'
+        }
       },
       {
         path:'/index/plan',
         name:RouterName.plan,
-        component:PlanView
+        component:PlanView,
+        meta: {
+          title: '计划列表'
+        }
       }
     ]
   }

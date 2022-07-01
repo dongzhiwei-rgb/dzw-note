@@ -14,6 +14,12 @@ import '@/assets/style/mycss.css'
 // Vue.use(VeeValidate);
 Vue.config.productionTip = false
 
+    // 全局后置钩子
+router.afterEach(to => {
+    	// 设置title
+    	document.title = `云笔记 | ${to.meta.title}`;
+})
+
 new Vue({
   router,
   store,
