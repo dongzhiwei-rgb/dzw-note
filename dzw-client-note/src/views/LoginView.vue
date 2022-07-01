@@ -30,6 +30,7 @@
 
 <script>
 import { userApi } from '@/utils/api'
+import {cleartoken} from '@/utils/deletetoken'
 
 export default{
 	data(){
@@ -47,7 +48,9 @@ export default{
 			const data = await userApi.login(loginData).then(res => res.data)
 			console.log(data)
 			if(data.message === 'success'){
-				this.$store.commit('user/setUser',{username:loginData.username,"token":data.token})
+				this.$store.commit('user/setUser',{username:loginData.username,token:data.token})
+				// 一小时后清除token
+				cleartoken(this)
 				this.$router.push({
 					name:'index'
 				})

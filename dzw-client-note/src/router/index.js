@@ -8,13 +8,15 @@ const LoginView = ()=> import(/* webpackChunkName: "login" */ '@/views/LoginView
 const RegView = () => import(/* webpackChunkName: "register" */ '@/views/RegisterView.vue')
 const IndexView = () => import(/* webpackChunkName: "index" */ '@/views/IndexView.vue')
 const SearchView = () => import(/* webpackChunkName: "search" */ '@/views/SearchView.vue')
+const DailyView = ()=> import(/* webpackChunkName: "daily" */ '@/views/DailyListView.vue')
 
 const RouterName = {
     home:'home',
     login:'login',
     register:'register',
     index:'index',
-    search:'search'
+    search:'search',
+    daily:'daily'
 }
 
 const routes = [
@@ -56,6 +58,11 @@ const routes = [
         path:'/index/search',
         name:RouterName.search,
         component:SearchView
+      },
+      {
+        path:'/index/daily',
+        name:RouterName.daily,
+        component:DailyView
       }
     ]
   }

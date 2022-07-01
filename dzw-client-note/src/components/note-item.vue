@@ -24,7 +24,7 @@
         <a
           href="javascript:void(0);"
           class="card-done"
-          @click="recoverPlan(plan)"
+          @click="recover(item)"
         >
           <span class="glyphicon glyphicon-repeat"></span>恢复
         </a>
@@ -43,7 +43,7 @@
 
 
           <div class="btn-group card-btn-group">
-            	<button v-show="item.state === 0" class='btn card-btn btn-info' @click="modify(item)">
+            	<button v-show="item.state === 0" class='btn card-btn btn-info' @click="modify(item.id)">
 									<span class="glyphicon glyphicon-pencil"></span>修改
 							</button>
             <button class="btn card-btn btn-danger" @click="deleteItem(item)">
@@ -57,7 +57,8 @@
 </template>
 
 <script>
-
+import { dailyTaskApi } from '@/utils/api'
+import {taskData} from '@/utils/getData'
 
 export default {
   props: {
@@ -77,15 +78,51 @@ export default {
   },
   methods: {
     // 完成标记
-    finish() {},
+    async finish(item) {
+      const data = await dailyTaskApi.finishTasks(item).then(res => res.data)
+      if(data.message === 'finish-success'){
+        //获取更新数据
+        taskData.getTasks(this)
+      }else{
+        alert(data.message)
+      }
+    },
+    //撤销完成标记
+    async recover(item){
+      const data = await dailyTaskApi.unfinishTasks(item).then(res => res.data)
+      if(data.message === 'unFinish-success'){
+        //获取更新数据
+        taskData.getTasks(this)
+      }else{
+        alert(data.message)
+      }
+    },
     // 删除
-    deleteItem() {},
-    modify(){
-      this.$emit('modify')
-      //TODO 修改
+    async deleteItem(item) {
+      const data = await dailyTaskApi.deleteTasks(item).then(res => res.data)
+      if(data.message === 'delete-success'){
+        //获取更新数据
+        taskData.getTasks(this)
+      }else{
+        alert(data.message)
+      }
+    },
+    modify(id){
+      //TODO展开修改组件，并传递itme id数据
+      this.$emit('modify',id)
+    },
+    //改变不同优先级显示的颜色
+		cardColor(importance){
+			if (importance===1) {
+					return "bg-success"
+			}else if (importance===2) {
+					return "bg-warning"
+			}else{
+					return "bg-danger"
+		  }
     }
-  },
-};
+  }
+}
 </script>
 
 

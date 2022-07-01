@@ -15,6 +15,7 @@ const getTask = (req, res)=>{
 //保存日常任务
 const saveAdd = (req, res) =>{
     const task = req.body
+    console.log(req.user)
     task.username = req.user.username
     DailyTask.create(task).then(()=>{
         res.status(200).send({'message':'save-success'})

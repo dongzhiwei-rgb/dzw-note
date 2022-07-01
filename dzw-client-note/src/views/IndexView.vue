@@ -3,7 +3,6 @@
         <index-section/>
         <index-header />
         <aside>
-            <item-modify @modify="ismodify = true" :style="ismodify ?'':'display:none'"/>
             <router-view></router-view>
         </aside>
     </div>
@@ -14,18 +13,22 @@
 <script>
 import IndexHeader from '@/components/index-header.vue'
 import indexSection from '@/components/index-section.vue'
-import itemModify from '@/components/item-modify.vue';
+import { taskData } from '@/utils/getData'
 
 export default{
     components: {
         IndexHeader,
         indexSection,
-        itemModify
     },
     data() {
         return {
             ismodify:false
         }
+    },
+
+    mounted() {
+        taskData.getTasks(this)
+
     }
 }
 </script>

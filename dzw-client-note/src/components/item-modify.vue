@@ -32,7 +32,7 @@
             placeholder="完成时间"
           />
           <select
-            v-model="newTask.importance"
+            v-model.number="newTask.importance"
             class="form-control my-form-add-control"
             id="save_task_importance"
           >
@@ -61,21 +61,57 @@
 
 
 <script>
+import { dailyTaskApi } from '@/utils/api'
+import { taskData } from '@/utils/getData'
 
 export default{
+    props:{
+      //判断是修改还是添加 0 --> 添加，1 --> 修改 
+      aORm:{
+        type:Number,
+        default:0
+      },
+      // 需要修改的id
+      id:{
+        type:Number
+      }
+    },
     data() {
         return {
             newTask:{
                 title:'',
                 content:'',
+                state:0,
                 finishtime:'',
-                importance:''
-            }
+                importance:1
+            },
         }
     },
     methods:{
-        saveTask(){
-            //TODO保存，提交修改
+        async saveTask(){
+            //TODO保存
+            let data
+            //添加
+            if(this.aORm === 0){
+                console.log('添加')
+                data = await dailyTaskApi.addtask(this.newTask).then(res => res.data)
+            }
+            //修改
+            if(this.aORm === 1){
+                console.log('修改')
+                this.newTask.id = this.id
+                console.log(this.newTask)
+                data = await dailyTaskApi.updateTasks(this.newTask).then(res => res.data)
+            }
+            if(data.message === 'modify-success' || data.message === 'save-success'){
+                  // 重新获取列表
+                  // 关闭面板 
+                  this.cancelSave()
+                  taskData.getTasks(this)
+              }else{
+                  alert(data.message)
+              }
+
         },
         cancelSave(){
             //TOD取消，关闭界面
