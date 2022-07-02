@@ -26,11 +26,7 @@ export default new Vuex.Store({
     createpersistedstate(
     {
       key:'vuex-data',
-      paths:['user','task']
-    },
-    {
-      key:'vuex-plan',
-      paths:['plan']
+      paths:['user','task','plan']
     }
     )
   ]

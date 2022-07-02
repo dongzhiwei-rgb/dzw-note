@@ -16,7 +16,7 @@ dzw.use(cors())
 dzw.use(express.static("public"));
 
 //配置jwt的算法 解析token algorithms: ['HS256'],
-dzw.use(expressJWT({secret: process.env.SECRET_KEY,algorithms: ['HS256'] }).unless({ path: [/(login|register)$/]} ))
+dzw.use(expressJWT({secret: process.env.SECRET_KEY,algorithms: ['HS256'] }).unless({ path: [/(login|register|jpeg|jpg|png|404.html)$/]} ))
 
 dzw.use(bodyParser.urlencoded({extended:false}));//解析post
 dzw.use(bodyParser.json());//获取JSON数据
@@ -25,7 +25,6 @@ const User = require('./routes/UserRouters.js')
 const Task = require('./routes/TaskRouters.js')
 dzw.use('/user',User)
 dzw.use('/task',Task)
-
 
 
 //Bearer

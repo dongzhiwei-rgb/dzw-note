@@ -7,6 +7,8 @@ const jwt = require('jsonwebtoken')
 const multer = require('multer')
 
 const fs = require('fs')
+const port = process.env.PORT || 8081;
+const host = process.env.HOST || '127.0.0.1'
 
 // 注册
 const register = (req, res)=>{
@@ -63,44 +65,67 @@ const login = (req,res)=>{
 
 
 
-//设置头像
 //定义中间件储存对象
-var storage = multer.diskStorage({
+const storage = multer.diskStorage({
 	destination:(req,file,cb)=>{
-		cb(null,'upload/headimage/');//存储位置
+		cb(null,'public/upload/headimage/');//存储位置
 	},
 	filename:(req,file,cb)=>{
-		cb(null,req.session.username+'.jpg');
+		cb(null,req.user.username+'.jpg'); // 图片名称
 	}
 });
 //中间件
-var upload = multer({storage:storage});
-const [options,changeHeadImage] = [upload.single('headimg'),(req,res)=>{
-    res.send({"message":'change-success'})
-}]
+const upload = multer({storage:storage});
+
+// headimg 前台传来的 formdata 里面的名字
+const singleUpload = upload.single('headimg');
+
+
+//设置头像请求
+const setheadImg = (req,res)=>{
+    const headImage = 'upload/headimage/'+req.user.username+'.jpg'
+    // // 存在头像就删除
+    // fs.existsSync("public/"+headImage,(exist =>{
+    //     if(exist){
+    //         fs.unlinkSync("public/"+headImage)
+    //     }
+    // }))
+    // 上传
+    singleUpload(req, res, function(err) {
+        if (err) {
+          res.send({message: err});
+        }else{
+            
+            console.log(req.file.path)
+            res.send({message:'upload-success',imgUrl:`http://${host}:${port}/${headImage}`})
+        }
+    })
+}
+
+
 
 
 // 获取头像
 const getheadimage = (req,res)=>{
     const headImage = 'upload/headimage/'+req.user.username+'.jpg'
-    fs.existsSync(headImage,(exist =>{
+    fs.exists("public/"+headImage,(exist =>{
         if(exist){
-            fs.readFile(headImage,(err,image)=>{
+            fs.readFile("public/"+headImage,(err,image)=>{
                 if(err){
                     console.log(err)
                     res.send({'message':err})
                 }else{
-                    res.type('image/jpeg').send(image)
+                    res.send({'message':'success',url:`http://${host}:${port}/${headImage}`})
                 }
             });
         }else{
             // 使用默认头像
-            fs.readFile('upload/defaultimage/headimg.jpg',(err,image)=>{
+            fs.readFile('public/upload/defaultimage/headimg.jpg',(err,image)=>{
                 if(err){
                     console.log(err)
                     res.send({'message':err})
                 }else{
-                    res.type('image/jpeg').send(image)
+                    res.send({'message':'success',url:`http://${host}:${port}/upload/defaultimage/headimg.jpg`})
                 }
             })
         }
@@ -111,8 +136,9 @@ const getheadimage = (req,res)=>{
 module.exports = {
     register,
     login,
-    options,
-    changeHeadImage,
+    // options,
+    // changeHeadImage,
+    setheadImg,
     getheadimage
 
 };

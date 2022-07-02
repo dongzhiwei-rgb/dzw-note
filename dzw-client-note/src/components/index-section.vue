@@ -2,11 +2,11 @@
 <section class="leftmenu">
 			<div class="img_head_area">
 				<router-link to="/index/headimage">
-					<img class="img_head" :src="headImage"/>
+					<img class="img_head" :src="headImageUrl"/>
 				</router-link> 
 			</div>
 			<div class="list-group">
-				<router-link to="/index/search" class="list-group-item" >
+				<router-link to="/index/search"  class="list-group-item" >
 					<span class="glyphicon glyphicon-search"></span> 搜索
 				</router-link>
 				<router-link to="/index/daily" class="list-group-item" >
@@ -24,14 +24,42 @@
 
 
 <script>
-
+//  辅助函数
+// import { mapState } from 'vuex'
 
 export default{
-    computed: {
-        headImage(){
-            return '@/assets/image/headimg.jpg'
-        }
-    }
+	data() {
+		return {
+			
+		}
+	},
+	computed:{
+		headImageUrl:{
+			get () {
+				return this.$store.state.user.imgUrl
+			},
+			set (val){
+				this.$store.commit('user/setImgHead',val)
+			}
+		},
+		// ...mapState({
+    	// 	message: state => state.obj.message
+  		// })
+
+	},
+	methods: {
+
+	},
+	watch:{
+		headImageUrl:{
+			handler(val){
+				console.log(val)
+			},
+			deep: true
+			
+		}
+	}
+
 }
 </script>
 

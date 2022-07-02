@@ -22,11 +22,9 @@ export default {
             
         }
     },
-
     methods:{
         change(){
             this.$emit('change')
-
         }
 
     }

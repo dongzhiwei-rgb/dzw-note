@@ -46,9 +46,9 @@ export default{
 				password:this.password
 			}
 			const data = await userApi.login(loginData).then(res => res.data)
-			console.log(data)
+			const imgUrl = await userApi.gethead().then(res => res.data.url)
 			if(data.message === 'success'){
-				this.$store.commit('user/setUser',{username:loginData.username,token:data.token})
+				this.$store.commit('user/setUser',{username:loginData.username,token:data.token,imgUrl:imgUrl})
 				// 一小时后清除token
 				cleartoken(this)
 				this.$router.push({

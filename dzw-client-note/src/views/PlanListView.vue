@@ -44,7 +44,6 @@ export default {
   computed: {
     //TODO 获取计划列表
     planList(){
-        console.log(this.$store.getters['plan/getPlanList'])
         return this.$store.getters['plan/getPlanList']
     }
 

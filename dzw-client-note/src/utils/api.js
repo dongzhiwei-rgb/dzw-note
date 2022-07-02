@@ -27,6 +27,20 @@ export class userApi  {
     static async login(data){
         return instance.post('/user/login',data)
     }
+    // 修改头像
+    static async sethead(data){
+        // 设置请求头
+        instance.defaults.headers = {
+            "Content-Type": "multipart/form-data",
+            "Authorization":"Bearer "+getToken()
+        }
+        return instance.post('/user/upload',data)
+    }
+    // 获取头像
+    static async gethead(){
+        instance.defaults.headers = {"Authorization":"Bearer "+getToken()}
+        return instance.get('/user/getheadeimage')
+    }
 }
 
 

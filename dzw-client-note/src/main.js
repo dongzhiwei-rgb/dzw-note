@@ -7,12 +7,15 @@ import store from './store'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.min.js'
 import 'popper.js/dist/umd/popper.min.js'
+
+
 import '@/assets/style/mycss.css'
 // 表单验证
 // import VeeValidate from 'vee-validate';
 
 // Vue.use(VeeValidate);
 Vue.config.productionTip = false
+
 
     // 全局后置钩子
 router.afterEach(to => {
