@@ -10,16 +10,17 @@ const IndexView = () => import(/* webpackChunkName: "index" */ '@/views/IndexVie
 const SearchView = () => import(/* webpackChunkName: "search" */ '@/views/SearchView.vue')
 const DailyView = ()=> import(/* webpackChunkName: "daily" */ '@/views/DailyListView.vue')
 const PlanView = ()=> import(/* webpackChunkName: "plan" */ '@/views/PlanListView.vue')
-
+const HeadView = () => import (/* webpackChunkName: "head" */'@/views/HeadImageView.vue')
 
 const RouterName = {
     home:'home',
     login:'login',
     register:'register',
-    index:'index',
+    index:'index', 
     search:'search',
     daily:'daily',
-    plan:'plan'
+    plan:'plan',
+    head:'head'
 }
 
 const routes = [
@@ -85,6 +86,14 @@ const routes = [
         component:PlanView,
         meta: {
           title: '计划列表'
+        }
+      },
+      {
+        path:'/index/headimage',
+        name:RouterName.head,
+        component:HeadView,
+        meta:{
+          title: '更换头像',
         }
       }
     ]

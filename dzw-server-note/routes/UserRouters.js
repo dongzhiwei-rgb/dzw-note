@@ -11,7 +11,7 @@ users.post('/register',userController.register)
 // 登录接口
 users.post('/login',userController.login)
 // 修改头像
-users.post('/upload',userController.options,userController.changeHeadImage)
+users.post('/upload',userController.setheadImg)
 // 获取头像
 users.get('/getheadeimage',userController.getheadimage)
 
