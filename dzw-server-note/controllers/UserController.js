@@ -84,13 +84,6 @@ const singleUpload = upload.single('headimg');
 //设置头像请求
 const setheadImg = (req,res)=>{
     const headImage = 'upload/headimage/'+req.user.username+'.jpg'
-    // // 存在头像就删除
-    // fs.existsSync("public/"+headImage,(exist =>{
-    //     if(exist){
-    //         fs.unlinkSync("public/"+headImage)
-    //     }
-    // }))
-    // 上传
     singleUpload(req, res, function(err) {
         if (err) {
           res.send({message: err});
